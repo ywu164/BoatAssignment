@@ -1,0 +1,14 @@
+D:\play\Assn2\Assn2\bin\Debug\netcoreapp2.1\Assn2.deps.json
+D:\play\Assn2\Assn2\bin\Debug\netcoreapp2.1\Assn2.runtimeconfig.json
+D:\play\Assn2\Assn2\bin\Debug\netcoreapp2.1\Assn2.runtimeconfig.dev.json
+D:\play\Assn2\Assn2\bin\Debug\netcoreapp2.1\Assn2.dll
+D:\play\Assn2\Assn2\bin\Debug\netcoreapp2.1\Assn2.pdb
+D:\play\Assn2\Assn2\obj\Debug\netcoreapp2.1\Assn2.csprojAssemblyReference.cache
+D:\play\Assn2\Assn2\obj\Debug\netcoreapp2.1\Assn2.csproj.CoreCompileInputs.cache
+D:\play\Assn2\Assn2\obj\Debug\netcoreapp2.1\Assn2.RazorAssemblyInfo.cache
+D:\play\Assn2\Assn2\obj\Debug\netcoreapp2.1\Assn2.RazorAssemblyInfo.cs
+D:\play\Assn2\Assn2\obj\Debug\netcoreapp2.1\Assn2.AssemblyInfoInputs.cache
+D:\play\Assn2\Assn2\obj\Debug\netcoreapp2.1\Assn2.AssemblyInfo.cs
+D:\play\Assn2\Assn2\obj\Debug\netcoreapp2.1\Assn2.RazorTargetAssemblyInfo.cache
+D:\play\Assn2\Assn2\obj\Debug\netcoreapp2.1\Assn2.dll
+D:\play\Assn2\Assn2\obj\Debug\netcoreapp2.1\Assn2.pdb
