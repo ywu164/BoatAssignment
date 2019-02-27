@@ -15,10 +15,10 @@ namespace Assn2.Controllers
 {
     public class AuthController : Controller
     {
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<ApplicationUser> _userManager;
         private readonly IConfiguration _configuration;
 
-        public AuthController(UserManager<IdentityUser> userManager, IConfiguration configuration)
+        public AuthController(UserManager<ApplicationUser> userManager, IConfiguration configuration)
         {
             _userManager = userManager;
             _configuration = configuration;
@@ -83,7 +83,13 @@ namespace Assn2.Controllers
                   new
                   {
                       token = new JwtSecurityTokenHandler().WriteToken(token),
-                      expiration = token.ValidTo
+                      username = user.UserName,
+                      email = user.Email,
+                      firstname = user.FirstName,
+                      lastname = user.LastName,
+                      country = user.Country,
+                      mobilenumber = user.MobileNumber
+                      //expiration = token.ValidTo
                   });
             }
             return Unauthorized();

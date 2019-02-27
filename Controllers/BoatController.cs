@@ -12,7 +12,7 @@ namespace Assn2.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    //[Authorize]
     public class BoatController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
@@ -32,7 +32,7 @@ namespace Assn2.Controllers
 
         // GET: api/Boats/5
         [HttpGet("{id}")]
-        [Authorize(Roles = "Admin, Member")]
+        [Authorize(Policy = "RequireAdminRole")]
         public async Task<IActionResult> GetBoat([FromRoute] int id)
         {
             //if (!ModelState.IsValid)
@@ -108,7 +108,7 @@ namespace Assn2.Controllers
 
         // DELETE: api/Boats/5
         [HttpDelete("{id}")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = "RequireAdminRole")]
         public async Task<IActionResult> DeleteBoat([FromRoute] int id)
         {
             //if (!ModelState.IsValid)

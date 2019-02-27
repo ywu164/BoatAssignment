@@ -19,10 +19,13 @@ namespace Assn2.Data
                 //context.Database.Migrate();
 
                 // Look for any ailments
-                if (context.Boats != null && context.Boats.Any())
+                if (context.Boats.Any())
+                {
                     return;   // DB has already been seeded
+                }
+                    
 
-                var boats = GetBoats().ToArray();
+                var boats = DummyData.GetBoats().ToArray();
                 context.Boats.AddRange(boats);
                 context.SaveChanges();
 
@@ -32,11 +35,11 @@ namespace Assn2.Data
         public static List<Boat> GetBoats()
         {
             List<Boat> boats = new List<Boat>() {
-            new Boat {BoatId=1, BoatName="First", Picture="F", LengthInFeet=100, Description="Fast", Make="Honda"},
-            new Boat {BoatId=2, BoatName="Second", Picture="S", LengthInFeet=200, Description="Speed", Make="Toyota"},
-            new Boat {BoatId=3, BoatName="Third", Picture="T", LengthInFeet=300, Description="Thirsty", Make="BMW"},
-            new Boat {BoatId=4, BoatName="Fourth", Picture="F", LengthInFeet=400, Description="Furious", Make="Porsche"},
-            new Boat {BoatId=5, BoatName="Fifth", Picture="F", LengthInFeet=500, Description="Fire", Make="Ferrari"}
+            new Boat {BoatName="First", Picture="F", LengthInFeet=100, Description="Fast", Make="Honda"},
+            new Boat {BoatName="Second", Picture="S", LengthInFeet=200, Description="Speed", Make="Toyota"},
+            new Boat {BoatName="Third", Picture="T", LengthInFeet=300, Description="Thirsty", Make="BMW"},
+            new Boat {BoatName="Fourth", Picture="F", LengthInFeet=400, Description="Furious", Make="Porsche"},
+            new Boat {BoatName="Fifth", Picture="F", LengthInFeet=500, Description="Fire", Make="Ferrari"}
             };
             return boats;
         }
