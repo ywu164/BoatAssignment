@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Assn2.Data;
+using Assn2.ViewModels;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -36,7 +37,7 @@ namespace Assn2
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddIdentity<IdentityUser, IdentityRole>(
+            services.AddIdentity<ApplicationUser, IdentityRole>(
                 option =>
                 {
                     option.Password.RequireDigit = false;
@@ -48,11 +49,22 @@ namespace Assn2
             ).AddEntityFrameworkStores<ApplicationDbContext>()
             .AddDefaultTokenProviders();
 
-            services.AddAuthentication(option => {
+            services.AddScoped<IUserClaimsPrincipalFactory<ApplicationUser>, AppClaimsPrincipalFactory>();
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("RequireAdminRole", policy => policy.RequireRole("Admin"));
+            });
+
+            services.AddCors();
+
+            services.AddAuthentication(option =>
+            {
                 option.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 option.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
                 option.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).AddJwtBearer(options => {
+            }).AddJwtBearer(options =>
+            {
                 options.SaveToken = true;
                 options.RequireHttpsMetadata = true;
                 options.TokenValidationParameters = new TokenValidationParameters()
@@ -69,7 +81,7 @@ namespace Assn2
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IServiceProvider serviceProvider)
         {
             if (env.IsDevelopment())
             {
@@ -80,9 +92,62 @@ namespace Assn2
                 app.UseHsts();
             }
 
+            app.UseCors(builder =>
+                builder.WithOrigins("http://localhost:4200")
+                .AllowAnyHeader());
+
             app.UseHttpsRedirection();
             app.UseAuthentication();
             app.UseMvc();
+
+            DummyData.Initialize(app);
+            CreateRoles(serviceProvider).Wait();
         }
-    }
+
+        private async Task CreateRoles(IServiceProvider serviceProvider)
+        {
+            //initializing custom roles 
+            var RoleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+            var UserManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+            string[] roleNames = { "Admin", "Member" };
+
+            foreach (var roleName in roleNames)
+            {
+                var roleExist = await RoleManager.RoleExistsAsync(roleName);
+                if (!roleExist)
+                {
+                    //create the roles and seed them to the database: Question 1
+                    await RoleManager.CreateAsync(new IdentityRole(roleName));
+                }
+            }
+
+            var adm = new ApplicationUser
+            {
+                UserName = "a",
+                Email = "a@a.a",
+                FirstName = "AdminFirst",
+                LastName = "AdminLast",
+                Country = "CANADA",
+                MobileNumber = "7789987520"
+
+            };
+            var mem = new ApplicationUser
+            {
+                UserName = "m",
+                Email = "m@m.m",
+                FirstName = "MemberFirst",
+                LastName = "MemberLast",
+                Country = "PUERTO RICO",
+                MobileNumber = "7786808303"
+            };
+            //Ensure you have these values in your appsettings.json file
+            string userPWD = "P@$$w0rd";
+
+            await UserManager.CreateAsync(adm, userPWD);
+            await UserManager.CreateAsync(mem, userPWD);
+
+            await UserManager.AddToRoleAsync(adm, "Admin");
+            await UserManager.AddToRoleAsync(mem, "Member");
+        }
+    }  
 }
