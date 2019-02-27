@@ -1,0 +1,47 @@
+<div style="text-align:center">
+  <h1>
+    boat-functions works!
+  </h1>
+<p>View boats</p>
+<table *ngIf="boats" >
+  <thead>
+    <tr>
+      <th>BoatId</th>
+      <th>BoatName</th>
+      <th>Picture</th>
+      <th>LengthInFeet</th>
+      <th>Make</th>
+      <th>Description</th>
+      <th>Edit</th>
+      <th>Delete</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let c of boats; let i=index; ">
+      <td>{{c.BoatId}}</td>
+      <td>{{c.BoatName}}</td>
+      <td>{{c.Picture}}</td>
+      <td>{{c.LengthInFeet}}</td>
+      <td>{{c.Make}}</td>
+        <td>{{c.Country}}</td>
+        <td>{{c.Description}}</td>
+        <th><Button>Delete</Button></th>
+      <th><Button>Edit</Button></th>
+    </tr>
+  </tbody>
+</table>
+
+
+<!--<p>Picture: <img src="{{Picture}}" alt="{{FirstName}} {{LastName}}" /></p>-->
+    <div>
+        <p>Add Boat</p>
+        <p><label>BoatId: </label><input [(ngModel)]="boat1.BoatId"></p>
+        <p><label>BoatName: </label><input [(ngModel)]="boat1.BoatName"></p>
+        <p><label>Picture: </label><input [(ngModel)]="boat1.Picture"></p>
+        <p><label>LengthInFeet: </label><input [(ngModel)]="boat1.LengthInFeet"></p>
+    <p><label>Make: </label><input [(ngModel)]="boat1.Make"></p>
+        <p><label>Description: </label><input [(ngModel)]="boat1.Description"></p>
+    
+    </div>
+
+<router-outlet></router-outlet>
